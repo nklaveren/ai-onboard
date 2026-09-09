@@ -1,7 +1,7 @@
 # ai-onboard
 
 Golden datasets and an eval harness for a customer support inbox, run against local models
-(Qwen3.5 0.8B/2B/4B/9B on an RTX 3070 Ti) and a 480B cloud model. The point of the repo is
+(Qwen3.5 0.8B/2B/4B/9B on an RTX 3070 Ti) and a 428B MoE in the cloud. The point of the repo is
 the measurement discipline, not the classifier: every prompt version, every run and every
 label decision is in here.
 
@@ -74,7 +74,7 @@ measurement is the artifact.
 | qwen3.5:2b | 2.7 GB | 87.7% |
 | qwen3.5:4b | 3.4 GB | 96.6% |
 | qwen3.5:9b | 6.5 GB | **97.9%** |
-| MiniMax-M3 (480B, cloud) | — | 96.6% |
+| MiniMax-M3 (428B MoE, 23B active, cloud) | — | 96.6% |
 
 What the numbers hide, and why the repo is structured the way it is:
 

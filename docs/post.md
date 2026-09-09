@@ -1,7 +1,7 @@
 # I built a golden dataset for a support inbox. The first 100% was a lie.
 
 A weekend case study on evaluating LLMs for customer support intent classification, running
-everything from a 0.8B model on a laptop GPU to a 480B model in the cloud. Repo:
+everything from a 0.8B model on a laptop GPU to a 428B MoE in the cloud. Repo:
 `ai-onboard` (link in comments).
 
 ## The setup
@@ -11,7 +11,8 @@ Task: classify a customer message into one of five intents (`cancellation`, `bil
 classifier; it was learning what a golden dataset actually has to look like to be trusted.
 
 Models: Qwen3.5 at 0.8B / 2B / 4B / 9B via Ollama on an RTX 3070 Ti (8 GB), and
-MiniMax-M3 (480B) via API. Temperature 0, reasoning turned off, one label out.
+MiniMax-M3 (428B total, 23B active per token) via API. Temperature 0, reasoning turned
+off, one label out.
 
 ## Day 1: 100% on 32 examples
 
@@ -21,7 +22,7 @@ the local models and iterated the prompt three more times. By prompt v4 all four
 models scored 32/32 on five consecutive runs each, zero variance; MiniMax matched them on
 a single run.
 
-A 1 GB model matching a 480B model. That was the post I almost wrote.
+A 1 GB model matching a 428B model. That was the post I almost wrote.
 
 ## Day 1, later: 72%
 
@@ -69,9 +70,11 @@ seen. The dataset that generated the rules cannot be the dataset that grades the
 | qwen3.5:2b | 2.7 GB | 87.7% |
 | qwen3.5:4b | 3.4 GB | 96.6% |
 | qwen3.5:9b | 6.5 GB | **97.9%** |
-| MiniMax-M3 (480B) | cloud | 96.6% |
+| MiniMax-M3 (428B MoE, 23B active) | cloud | 96.6% |
 
-The 9B on a laptop ties or beats the 480B on this task with this prompt. That is a real
+A 9B dense model on a laptop ties the 428B MoE on this task with this prompt, and that
+MoE activates 23B per token, so the gap is smaller than the headline numbers suggest.
+Still a real
 result, but it is a much smaller claim than "the 0.8B matches it", and it took a clean
 test set to know the difference.
 
