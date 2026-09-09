@@ -109,21 +109,43 @@ ones are lookalikes ("please ignore my previous email", "override the delivery a
   `<|im_start|>system` turn and answered the injected question. The cascade is not only
   about accuracy; the regex in front is the layer that cannot be talked out of its job.
 
+## Phase 2: extraction, and the day my labels lost to the model
+
+Same messages, now extracting `{order_id, amount, currency, deadline, sentiment, action}`
+as JSON. Objective fields were solid from the 4B up: JSON valid 54/54, `order_id`,
+`amount`, `currency` at 96-100%. The rest was a lesson in specs.
+
+- The extractor also classifying intent cost every model about 10 points on that field
+  versus the dedicated classifier, MiniMax included (96.6% to 87.0%). One prompt doing
+  seven jobs does each of them worse. Pipeline mode (intent passed in from stage 1) is now
+  the default.
+- `urgency` had no ground truth. I labeled 12 contested rows, the repo owner labeled them
+  blind, two models labeled them: everyone agreed with everyone at chance level. The field
+  is gone, replaced by `deadline` (the quoted time constraint, or null), which is
+  extractable and verifiable.
+- `sentiment`: on the same 12 rows the human agreed with the 9B on 11 and with my labels
+  on 3. My "neutral even when reporting a problem" convention was mine alone. After
+  relabeling, the model that had scored best on sentiment (4B, 92.6%) dropped to 48%. It
+  had not been good at sentiment; it had been good at agreeing with me.
+
+| all 6 fields correct | 4B | 9B | MiniMax-M3 |
+|---|---|---|---|
+| first run | 61% | 44% | — |
+| final spec | 72% | 83% | 85% |
+
+The 9B nearly doubled without a single change to the model. Spec and labels moved more
+than parameters did.
+
 ## Next
 
-Phase 2 (structured extraction) is running. Early result from the 4B: `order_id`, `amount`
-and `currency` at 98-100%, JSON valid 54/54, but `intent` fell from 96.6% to 79.6% in the
-same model, because the extraction prompt has one line about intent where the classifier
-has nine rules. One prompt doing seven jobs does each of them worse. That is the argument
-for the pipeline, and the next thing to measure.
-
-Then: tool routing with tools scoped by intent vs. all tools exposed, a LoRA on the 4B
-against the 9B zero-shot on the same test, LLM-as-a-judge for free-text replies, and the
-whole thing in CI.
+Tool routing with tools scoped by intent vs. all tools exposed (the experiment that
+justifies the pipeline), a LoRA on the 4B against the 9B zero-shot on the same test,
+LLM-as-a-judge for free-text replies, and the whole thing in CI.
 
 ## If you take one thing
 
 The number you get on the examples you used to write the prompt is not a measurement. It
 is a description of your own editing. Split the data before you start, audit the prompt
 against it mechanically, and let the models vote on your labels; they are often right and
-you are often wrong.
+you are often wrong. And when a model agrees with you suspiciously well, check whether
+it learned the task or learned you.
