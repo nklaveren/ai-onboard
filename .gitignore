@@ -4,5 +4,4 @@ __pycache__/
 .direnv/
 .env
 result
-results/
 .agent-remote/
