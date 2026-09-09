@@ -1,0 +1,32 @@
+{"id": "intent-001", "input": "I want to cancel my subscription today.", "expected": "cancellation", "tags": ["direct"], "notes": "Canonical cancellation request."}
+{"id": "intent-002", "input": "How do I close my account? I don't need it anymore.", "expected": "cancellation", "tags": ["direct"], "notes": "Closing the account is a cancellation."}
+{"id": "intent-003", "input": "cancel", "expected": "cancellation", "tags": ["short"], "notes": "Single word, no context."}
+{"id": "intent-004", "input": "Please stop charging my card.", "expected": "cancellation", "tags": ["indirect"], "notes": "Asking to stop future charges is a cancellation, not a billing dispute. See tie-break rules in the prompt."}
+{"id": "intent-005", "input": "I don't want to cancel, I just want to pause for a month.", "expected": "other", "tags": ["negation", "ambiguous"], "notes": "Explicit negation of cancellation. Pausing is not a supported category, so it falls to other."}
+{"id": "intent-006", "input": "You guys are the worst, I'm done.", "expected": "other", "tags": ["ambiguous", "sentiment"], "notes": "Anger without an explicit request. The model must not infer cancellation from frustration."}
+{"id": "intent-007", "input": "I was charged twice this month.", "expected": "billing", "tags": ["direct"], "notes": "Duplicate charge."}
+{"id": "intent-008", "input": "Why is my invoice $49 when the plan page says $29?", "expected": "billing", "tags": ["direct"], "notes": "Price discrepancy."}
+{"id": "intent-009", "input": "I'm not asking for a refund, I just want to know why the price changed.", "expected": "billing", "tags": ["negation"], "notes": "Negates refund but the question is still about billing."}
+{"id": "intent-010", "input": "I cancelled last month but you still charged me.", "expected": "billing", "tags": ["multi_intent"], "notes": "Mentions cancellation as past context; the actionable issue is the unexpected charge."}
+{"id": "intent-011", "input": "What's your refund policy?", "expected": "billing", "tags": ["direct"], "notes": "Policy question about money."}
+{"id": "intent-012", "input": "My promo code didn't apply at checkout.", "expected": "billing", "tags": ["indirect"], "notes": "Discount not applied affects the amount charged."}
+{"id": "intent-013", "input": "Charged in USD but I'm in the EU, is that expected?", "expected": "billing", "tags": ["direct"], "notes": "Currency question."}
+{"id": "intent-014", "input": "My package arrived damaged, I want my money back.", "expected": "billing", "tags": ["multi_intent"], "notes": "Problem is shipping, request is a refund. Tie-break rule: classify by the request."}
+{"id": "intent-015", "input": "Can't log in, it says wrong password but I'm sure it's right.", "expected": "login", "tags": ["negation"], "notes": "Access problem."}
+{"id": "intent-016", "input": "Never received the 2FA code.", "expected": "login", "tags": ["negation", "short"], "notes": "2FA is part of the login flow."}
+{"id": "intent-017", "input": "Great, locked out AGAIN. Third time this week.", "expected": "login", "tags": ["sarcasm"], "notes": "Sarcastic tone, clear access issue."}
+{"id": "intent-018", "input": "Love paying for something I can't even access.", "expected": "login", "tags": ["sarcasm", "ambiguous"], "notes": "Mentions payment but the actionable problem is access. Tie-break: classify by the problem the user needs solved."}
+{"id": "intent-019", "input": "cant loggin, pasword reset email nevr came", "expected": "login", "tags": ["typo"], "notes": "Heavy typos."}
+{"id": "intent-020", "input": "Reset link expired.", "expected": "login", "tags": ["short"], "notes": "Password reset is part of login."}
+{"id": "intent-021", "input": "Password reset works but then it logs me out immediately.", "expected": "login", "tags": ["direct"], "notes": "Session issue after login."}
+{"id": "intent-022", "input": "Is the site down? Nothing loads.", "expected": "other", "tags": ["ambiguous"], "notes": "Outage is not a login problem. Must not be classified as login just because the user cannot get in."}
+{"id": "intent-023", "input": "Where is my order? It's been 10 days.", "expected": "shipping", "tags": ["direct"], "notes": "Delivery delay."}
+{"id": "intent-024", "input": "Tracking says delivered but there's nothing at my door.", "expected": "shipping", "tags": ["negation"], "notes": "Delivery discrepancy."}
+{"id": "intent-025", "input": "Delivery ETA?", "expected": "shipping", "tags": ["short"], "notes": "Two words."}
+{"id": "intent-026", "input": "Ordered a blue one, got red.", "expected": "shipping", "tags": ["indirect"], "notes": "Wrong item delivered is a fulfillment issue."}
+{"id": "intent-027", "input": "Can I change my shipping address before it ships?", "expected": "shipping", "tags": ["direct"], "notes": "Address change."}
+{"id": "intent-028", "input": "Can I pick it up at a store instead of home delivery?", "expected": "shipping", "tags": ["direct"], "notes": "Delivery method."}
+{"id": "intent-029", "input": "Do you have an Android app?", "expected": "other", "tags": ["out_of_scope"], "notes": "Product question, none of the four categories."}
+{"id": "intent-030", "input": "hi", "expected": "other", "tags": ["short", "out_of_scope"], "notes": "Greeting with no request."}
+{"id": "intent-031", "input": "Is the premium plan worth it?", "expected": "other", "tags": ["out_of_scope"], "notes": "Pre-sales question, not billing."}
+{"id": "intent-032", "input": "How do I export my data before leaving?", "expected": "other", "tags": ["ambiguous"], "notes": "'Before leaving' hints at cancellation, but the request is a data export. Tie-break: classify by the request."}

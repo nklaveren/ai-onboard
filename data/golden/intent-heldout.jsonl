@@ -1,0 +1,32 @@
+{"id": "ho-001", "input": "Please terminate my membership effective immediately.", "expected": "cancellation", "tags": ["direct"], "notes": "Request word 'terminate'."}
+{"id": "ho-002", "input": "unsubscribe me", "expected": "cancellation", "tags": ["short"], "notes": "Two words, request word present."}
+{"id": "ho-003", "input": "I no longer wish to be billed. Please make sure nothing else comes off my card.", "expected": "cancellation", "tags": ["indirect", "negation"], "notes": "Stop future charges without the word cancel. Rule 3."}
+{"id": "ho-004", "input": "How long does it take for an account deletion to go through?", "expected": "other", "tags": ["ambiguous"], "notes": "Label decision 2026-09-08: informational question about the process, not a request to delete. Originally labeled cancellation; 4b, 0.8b, 2b and MiniMax-M3 predicted other under v4/v5 and the label was judged wrong, not the models."}
+{"id": "ho-005", "input": "Honestly if this happens one more time I'm out of here.", "expected": "other", "tags": ["ambiguous", "sentiment"], "notes": "Threat to leave, no request word. Rule 4, different phrasing from 'I'm done'."}
+{"id": "ho-006", "input": "Worst experience ever. Unbelievable.", "expected": "other", "tags": ["sentiment", "short"], "notes": "Pure venting, no request."}
+{"id": "ho-007", "input": "Can I freeze my plan while I'm traveling for two months?", "expected": "other", "tags": ["ambiguous"], "notes": "Freeze = pause, not cancellation. Rule 5."}
+{"id": "ho-008", "input": "Move me down to the basic tier please.", "expected": "other", "tags": ["ambiguous"], "notes": "Downgrade, not cancellation. Rule 5."}
+{"id": "ho-009", "input": "There are two identical line items on my statement from the 3rd.", "expected": "billing", "tags": ["direct"], "notes": "Duplicate charge without the word 'charged twice'."}
+{"id": "ho-010", "input": "The amount debited doesn't match what I agreed to at signup.", "expected": "billing", "tags": ["direct"], "notes": "Price discrepancy."}
+{"id": "ho-011", "input": "Not disputing anything, just curious why there's a tax line now.", "expected": "billing", "tags": ["negation"], "notes": "Negates dispute, still about money."}
+{"id": "ho-012", "input": "I closed my account in June. Why did I get a receipt yesterday?", "expected": "billing", "tags": ["multi_intent"], "notes": "Past cancellation is context; the issue is the new charge. Rule 7."}
+{"id": "ho-013", "input": "If I return the product, how many days until the money is back?", "expected": "billing", "tags": ["direct"], "notes": "Refund timing question."}
+{"id": "ho-014", "input": "Entered SAVE15 and the total stayed the same.", "expected": "billing", "tags": ["indirect"], "notes": "Coupon not applied, no word 'coupon' or 'promo'."}
+{"id": "ho-015", "input": "Why is the receipt in pounds? I'm in Canada.", "expected": "billing", "tags": ["direct"], "notes": "Currency."}
+{"id": "ho-016", "input": "The speaker showed up with a cracked case. I'd like a credit back to my card.", "expected": "billing", "tags": ["multi_intent"], "notes": "Delivery problem, money request. Rule 1."}
+{"id": "ho-017", "input": "It keeps saying my credentials are invalid even after I reset them.", "expected": "login", "tags": ["negation"], "notes": "Access problem, no word 'login' or 'password'."}
+{"id": "ho-018", "input": "The verification text isn't arriving on my phone.", "expected": "login", "tags": ["negation"], "notes": "2FA delivery, no word '2FA'."}
+{"id": "ho-019", "input": "Fantastic, another day, another 'account temporarily locked' banner.", "expected": "login", "tags": ["sarcasm"], "notes": "Sarcasm, locked account."}
+{"id": "ho-020", "input": "Cool, so I get to fund a service that greets me with 'access denied'.", "expected": "login", "tags": ["sarcasm", "ambiguous"], "notes": "Mentions paying; actual problem is access. Rule 2."}
+{"id": "ho-021", "input": "the recovery mail never showd up chekd spam too", "expected": "login", "tags": ["typo"], "notes": "Typos, password recovery."}
+{"id": "ho-022", "input": "Magic link says it's already been used.", "expected": "login", "tags": ["short"], "notes": "Passwordless login failure."}
+{"id": "ho-023", "input": "Every time I open the app it kicks me back to the sign-in screen.", "expected": "login", "tags": ["direct"], "notes": "Session loss."}
+{"id": "ho-024", "input": "Are your servers having issues? I'm getting a 502 on every page.", "expected": "other", "tags": ["ambiguous"], "notes": "Outage, not login. Rule 6."}
+{"id": "ho-025", "input": "It's been almost two weeks and the tracking page hasn't moved.", "expected": "shipping", "tags": ["direct"], "notes": "Delay."}
+{"id": "ho-026", "input": "Courier marked it as handed over but no one here signed for anything.", "expected": "shipping", "tags": ["negation"], "notes": "Delivery discrepancy."}
+{"id": "ho-027", "input": "when does it arrive", "expected": "shipping", "tags": ["short"], "notes": "ETA, lowercase, no punctuation."}
+{"id": "ho-028", "input": "I asked for a large and the box has a medium in it.", "expected": "shipping", "tags": ["indirect"], "notes": "Wrong item."}
+{"id": "ho-029", "input": "I moved last week, can you send it to the new place instead?", "expected": "shipping", "tags": ["direct"], "notes": "Address change."}
+{"id": "ho-030", "input": "Is there a locker option instead of leaving it on the porch?", "expected": "shipping", "tags": ["direct"], "notes": "Delivery method."}
+{"id": "ho-031", "input": "Does this work offline?", "expected": "other", "tags": ["out_of_scope"], "notes": "Product question."}
+{"id": "ho-032", "input": "Before I sign up, is there a student discount?", "expected": "other", "tags": ["out_of_scope", "ambiguous"], "notes": "Pre-sales. No account or charge exists, so not billing. Label decision 2026-09-08: billing is for existing customers; prospect pricing questions route to pre-sales (other). 9b, 4b and MiniMax-M3 all predicted billing under prompt v4, which did not state this."}
