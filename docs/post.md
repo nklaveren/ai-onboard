@@ -17,8 +17,9 @@ MiniMax-M3 (480B) via API. Temperature 0, reasoning turned off, one label out.
 
 I wrote 32 examples with traps: negation, sarcasm, multi-intent, out-of-scope. Prompt v1
 got 31/32 on MiniMax. I looked at the failure, added a rule, ran again: 32/32. Then I ran
-the local models and iterated the prompt three more times. By prompt v4, every model from
-0.8B up scored 32/32, five runs each, zero variance.
+the local models and iterated the prompt three more times. By prompt v4 all four local
+models scored 32/32 on five consecutive runs each, zero variance; MiniMax matched them on
+a single run.
 
 A 1 GB model matching a 480B model. That was the post I almost wrote.
 
