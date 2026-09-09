@@ -78,6 +78,15 @@ Still a real
 result, but it is a much smaller claim than "the 0.8B matches it", and it took a clean
 test set to know the difference.
 
+And then the same discipline turned on the test set itself. Five models ranked on 146
+examples, so I ran an exact McNemar on every pair: 9b vs 4b p=0.688, 9b vs MiniMax
+p=0.688, 4b vs MiniMax p=1.000. The top three are a tie. 97.9% and 96.6% differ by two
+rows. The only gaps the set resolves are 2b vs 4b (p=0.002) and 0.8b vs 9b (p=0.035), and
+even the 0.8b-above-2b inversion in the table is noise (p=0.210). Worse, running test once
+per prompt version and keeping the winner is still multiple comparisons: every run I made
+a decision on spent a little of the set. A clean split buys you an unbiased estimate. It
+does not buy you resolution, and it does not survive being consulted repeatedly.
+
 Other things the numbers showed:
 
 - **Reasoning hurt.** MiniMax with thinking on read rule 4 ("do not infer cancellation from

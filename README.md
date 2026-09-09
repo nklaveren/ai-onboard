@@ -73,8 +73,16 @@ measurement is the artifact.
 | qwen3.5:0.8b | 1.0 GB | 91.8% |
 | qwen3.5:2b | 2.7 GB | 87.7% |
 | qwen3.5:4b | 3.4 GB | 96.6% |
-| qwen3.5:9b | 6.5 GB | **97.9%** |
+| qwen3.5:9b | 6.5 GB | 97.9% |
 | MiniMax-M3 (428B MoE, 23B active, cloud) | — | 96.6% |
+
+**The top three are a statistical tie.** McNemar (exact, paired on the same 146 rows):
+9b vs 4b p=0.688, 9b vs MiniMax p=0.688, 4b vs MiniMax p=1.000. The gaps the set can
+actually resolve are 2b vs 4b (p=0.002) and 0.8b vs 9b (p=0.035). 97.9% and 96.6% differ
+by two examples, and the 0.8b-over-2b inversion is not significant either (p=0.210).
+A second caveat on the method: test was run once per prompt version, and picking the best
+version across runs is still multiple comparisons. The strict version is one run, at the
+end, pre-registered.
 
 What the numbers hide, and why the repo is structured the way it is:
 
