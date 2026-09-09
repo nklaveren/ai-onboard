@@ -123,9 +123,3 @@ direnv allow
 ```
 
 Python 3.12 with `pip`, `virtualenv` and `uv` available in the shell.
-
----
-
-## Glossário (PT-BR)
-
-Terminologia de LLMs usada no dia a dia: [docs/glossario.md](docs/glossario.md).
