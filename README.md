@@ -22,7 +22,7 @@ data/golden/
 prompts/
   intent-v6.md                current intent classifier (9 tie-break rules, 7 few-shots)
   injection-v2.md             current guardrail prompt
-  intent.md .. intent-v5.md   history; each version maps to a failure it fixed
+  intent.md, intent-v3..v5.md history; each version maps to a failure it fixed
 evals/
   run.py                      runner: accuracy, per-label P/R/F1, confusion, per-tag, failures
   split.py                    stratified, seeded, sticky dev/test split
@@ -43,6 +43,26 @@ uv run evals/run.py --base-url https://api.minimax.io/v1 --api-key-env MINIMAX_A
 uv run evals/audit.py --prompt prompts/intent-v6.md --dataset data/golden/intent-all.jsonl
 ```
 
+### Reading the early runs
+
+The versioning discipline started at v3, so the first runs need three caveats. They are
+stated here rather than cleaned up, because the whole point of the repo is that the
+measurement is the artifact.
+
+- **`prompts/intent.md` is the version the write-up calls v2.** v1 and v2 were the same
+  file edited in place, so v1's text is gone and its 31/32 is not reproducible. Every
+  version from v3 on is a separate file.
+- **`prompts/intent.md` still fails `audit.py` at 1.00 Jaccard.** That is deliberate: it is
+  the exhibit. Runs recorded before v3 store the prompt path but no content hash, which is
+  why `A-think-on-prompt-v1.jsonl` and `B-think-off-prompt-v2.jsonl` both point at
+  `prompts/intent.md` with different accuracies.
+- **Thinking on/off is not a field in the early metadata.** It is recoverable from the rows:
+  a run with reasoning on has `<think>` blocks in `raw` and no `extra_body` in `meta`. The
+  23x output-token figure compares `A-think-on-prompt-v1.jsonl` (1459 tokens over 32 rows)
+  with a think-off run of the same dataset (63); the 96.9% think-off run predates token
+  accounting, so the ratio is across runs, not within a pair. The output is a single label
+  either way.
+
 ### Phase 1: intent classification (test = 146, prompt v6, temperature 0, thinking off)
 
 | model | VRAM | accuracy |
@@ -61,8 +81,10 @@ What the numbers hide, and why the repo is structured the way it is:
 - Five prompt iterations against the same 32 examples is overfitting by hand. Hence the
   sticky dev/test split: test numbers are only meaningful while nobody has looked at test
   failures.
-- When three models of different sizes agree against the label, the label is usually
-  wrong. Four label decisions were made this way and are recorded in each row's `notes`.
+- Ten label decisions are recorded with a dated note in the row. Two of them came from
+  models voting against me: when three models of different sizes disagree with the label,
+  the label is usually the thing that is wrong (`ho-004`, `ho-032`). The other eight are
+  the intent precedence rule applied to rows the generator had labelled by topic.
 - Reasoning mode hurt: MiniMax-M3 with thinking on argued its way around an explicit rule
   and dropped from 96.9% to 87.5%, at 23x the output tokens.
 - Small models match vocabulary, not concepts: 0.8b/2b route SSO, captcha, Face ID and

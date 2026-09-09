@@ -48,9 +48,11 @@ seen. The dataset that generated the rules cannot be the dataset that grades the
 - **Sticky dev/test split**: 363 examples, stratified by label, seeded. Test is run once
   per prompt version and its failure list is never opened. Once I made two label
   decisions after looking at a held-out set, that set became dev; it was burned.
-- **Label decisions live in the data**: when three models of different sizes agree against
-  my label, the label is usually wrong. Four labels changed that way; each row carries a
-  dated note saying what was decided and why.
+- **Label decisions live in the data**: ten rows carry a dated note saying what was decided
+  and why. Two of them came from models voting against me (`ho-004`, `ho-032`): when three
+  models of different sizes disagree with my label, the label is usually the thing that is
+  wrong. The other eight are the precedence rule applied to rows the generator had labelled
+  by topic rather than by request.
 - **LLM-generated examples are candidates, not truth**: MiniMax wrote 200 rows. It never
   saw the classifier prompt. Every row landed as `reviewed: false`, was triaged by
   disagreement (regex + two local models vs. the generator's label), and the split script
